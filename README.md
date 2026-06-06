@@ -1,0 +1,2 @@
+# fifawc-2026
+FIFA WC 2026 | CANADA - EE.UU. - MEXICO
