@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIFA World Cup 2026™</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚽</text></svg>">
+    <style>
+        /* =========================================
+           ESTILOS GLOBALES (FIFA2026 - tema oscuro)
+           ========================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a1929;
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: clamp(12px, 3vw, 20px) clamp(16px, 5vw, 40px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            background: rgba(10,25,41,0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+            gap: clamp(8px, 2vw, 16px);
+        }
+
+        .logo {
+            font-size: clamp(0.9rem, 3vw, 1.2rem);
+            font-weight: 800;
+            letter-spacing: 2px;
+            white-space: nowrap;
+        }
+
+        .nav {
+            display: flex;
+            gap: clamp(8px, 2vw, 20px);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font-size: clamp(0.7rem, 2.5vw, 1rem);
+            font-weight: 600;
+            padding: clamp(6px, 1.5vw, 8px) clamp(8px, 2vw, 16px);
+            border-radius: 8px;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: rgba(0,217,255,0.2);
+            color: #00d9ff;
+        }
+
+        .flags { display: flex; gap: clamp(6px, 1.5vw, 12px); }
+        .flags img {
+            width: 36px;
+            height: 24px;
+            object-fit: cover;
+            border-radius: 3px;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: clamp(20px, 5vw, 40px) clamp(12px, 3vw, 20px);
+        }
+
+        .section-title {
+            font-size: clamp(1.3rem, 5vw, 1.8rem);
+            font-weight: 800;
+            margin-bottom: 8px;
+            word-break: break-word;
+            line-height: 1.2;
+        }
+
+        .section-subtitle {
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 25px;
+            font-size: clamp(0.8rem, 3vw, 1rem);
+        }
+
+        /* Countdown */
+        .countdown-box {
+            background: linear-gradient(135deg, rgba(0,217,255,0.1), rgba(255,215,0,0.1));
+            border: 2px solid #00d9ff;
+            border-radius: 12px;
+            padding: clamp(20px, 4vw, 30px);
+            margin-bottom: 35px;
+            text-align: center;
+        }
+        .countdown-box h2 { font-size: clamp(1.2rem, 4vw, 1.5rem); color: #ffd700; margin-bottom: 20px; }
+        .countdown-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: clamp(10px, 2vw, 16px);
+            margin-bottom: 16px;
+        }
+        .countdown-item { background: rgba(255,255,255,0.05); padding: clamp(12px, 2vw, 16px); border-radius: 8px; }
+        .countdown-item div:first-child { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; color: #00d9ff; }
+        .countdown-item div:last-child { color: rgba(255,255,255,0.7); font-size: clamp(0.65rem, 2vw, 0.9rem); margin-top: 6px; }
+        .countdown-box p { color: rgba(255,255,255,0.7); font-size: clamp(0.75rem, 2.5vw, 0.9rem); line-height: 1.5; }
+
+        /* Filtros calendario */
+        .filters { display: flex; gap: clamp(8px, 2vw, 16px); margin-bottom: 25px; flex-wrap: wrap; align-items: center; }
+        .search-box {
+            flex: 1; min-width: 180px;
+            padding: clamp(9px, 2vw, 12px) clamp(12px, 2vw, 16px);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px; color: #fff;
+            font-size: clamp(0.75rem, 2.5vw, 0.95rem);
+        }
+        .search-box:focus { outline: none; border-color: #00d9ff; background: rgba(0,217,255,0.1); }
+        .filter-select, .filter-btn {
+            padding: clamp(8px, 1.5vw, 10px) clamp(10px, 2vw, 16px);
+            border-radius: 8px; font-size: clamp(0.7rem, 2.5vw, 0.95rem); font-weight: 700;
+            white-space: nowrap; transition: all 0.3s;
+        }
+        .filter-select { background: #0d2137; border: 1px solid rgba(255,255,255,0.2); color: #fff; cursor: pointer; min-width: 100px; color-scheme: dark; }
+        .filter-select option { background: #0d2137; color: #fff; }
+        .filter-btn { background: #00d9ff; border: none; color: #000; cursor: pointer; }
+        .filter-btn:hover { background: #00b8d4; transform: translateY(-2px); }
+
+        /* Match cards */
+        .date-group { margin-bottom: 30px; }
+        .date-header { font-size: clamp(1rem, 4vw, 1.2rem); font-weight: 700; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid rgba(255,255,255,0.1); }
+        .match {
+            display: grid; grid-template-columns: 1fr;
+            gap: clamp(8px, 2vw, 16px); padding: clamp(12px, 3vw, 20px);
+            background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px; margin-bottom: 10px; transition: all 0.3s;
+        }
+        @media (min-width: 640px)  { .match { grid-template-columns: 70px 1fr auto; } }
+        @media (min-width: 900px)  { .match { grid-template-columns: 100px 1fr 200px 150px; gap: 20px; } }
+        .match:hover { background: rgba(0,217,255,0.1); border-color: #00d9ff; }
+        .match-time { text-align: center; }
+        .match-time-hour { font-size: clamp(1rem, 4vw, 1.3rem); font-weight: 800; color: #00d9ff; }
+        .match-time-zone { font-size: clamp(0.6rem, 2vw, 0.8rem); color: rgba(255,255,255,0.6); margin-top: 4px; }
+        .match-content { display: flex; align-items: center; gap: clamp(6px, 1.5vw, 12px); justify-content: center; flex-wrap: wrap; }
+        .team { display: flex; align-items: center; gap: clamp(4px, 1.5vw, 8px); font-weight: 600; font-size: clamp(0.7rem, 2.5vw, 1rem); }
+        .team img { width: clamp(30px, 5vw, 36px); height: clamp(20px, 3.5vw, 24px); object-fit: cover; border-radius: 3px; }
+        .vs { color: #ffd700; font-weight: 900; font-size: clamp(0.8rem, 3vw, 1.1rem); }
+        .match-info { text-align: center; font-size: clamp(0.65rem, 2vw, 0.9rem); order: -1; }
+        @media (min-width: 900px) { .match-info { order: 0; text-align: right; } }
+        .match-venue { color: rgba(255,255,255,0.8); line-height: 1.3; }
+        .match-date { color: rgba(255,255,255,0.6); font-size: clamp(0.6rem, 1.8vw, 0.85rem); margin-top: 4px; }
+        .group-badge {
+            display: inline-block; background: #00d9ff; color: #000;
+            padding: clamp(3px, 1vw, 4px) clamp(8px, 1.5vw, 12px);
+            border-radius: 20px; font-size: clamp(0.55rem, 1.8vw, 0.75rem); font-weight: 700; margin-top: 6px; white-space: nowrap;
+        }
+
+        /* Content tabs */
+        .content-tab { display: none; }
+        .content-tab.active { display: block; }
+
+        /* Grupos */
+        .groups-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: clamp(12px, 3vw, 20px); }
+        .group-card-dark {
+            background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px; padding: clamp(16px, 3vw, 24px); cursor: pointer; transition: all 0.3s;
+        }
+        .group-card-dark:hover { background: rgba(0,217,255,0.1); border-color: #00d9ff; transform: translateY(-4px); }
+        .group-title-dark { font-size: clamp(1.5rem, 5vw, 2rem); font-weight: 800; color: #ffd700; margin-bottom: 16px; text-align: center; }
+        .team-item {
+            padding: clamp(8px, 2vw, 10px); margin: clamp(6px, 1.5vw, 8px) 0;
+            background: rgba(255,255,255,0.05); border-radius: 8px;
+            display: flex; align-items: center; gap: clamp(6px, 1.5vw, 10px);
+            font-size: clamp(0.8rem, 2.5vw, 0.95rem); transition: all 0.2s;
+        }
+        .team-item:hover { background: rgba(0,217,255,0.15); transform: translateX(4px); }
+        .team-item img { width: 33px; height: 22px; object-fit: cover; border-radius: 3px; }
+
+        /* Info */
+        .info-section { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: clamp(20px, 5vw, 36px); }
+        .info-section h2 { font-size: clamp(1.8rem, 5vw, 2.2rem); color: #ffd700; margin-bottom: 20px; }
+        .info-section h3 { font-size: clamp(1.2rem, 4vw, 1.4rem); color: #00d9ff; margin-top: 24px; margin-bottom: 16px; }
+        .info-section p { line-height: 1.8; color: rgba(255,255,255,0.85); font-size: clamp(0.9rem, 2.5vw, 1.05rem); margin-bottom: 16px; }
+        .info-section ul { margin-left: clamp(16px, 3vw, 24px); line-height: 1.9; color: rgba(255,255,255,0.8); font-size: clamp(0.9rem, 2.5vw, 1.05rem); }
+        .info-section li { margin-bottom: 10px; }
+        .venues { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: clamp(12px, 3vw, 16px); margin-top: 20px; }
+        .venue { background: rgba(0,217,255,0.1); padding: clamp(12px, 2vw, 16px); border-radius: 8px; border: 1px solid rgba(0,217,255,0.2); }
+        .venue-title { color: #00d9ff; font-weight: 700; margin-bottom: 8px; font-size: clamp(0.9rem, 2.5vw, 1.05rem); }
+        .venue p { font-size: clamp(0.8rem, 2.5vw, 0.95rem); line-height: 1.6; }
+
+        /* Modal grupos */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); overflow-y: auto; padding: clamp(12px, 3vw, 20px); }
+        .modal-content { background: #0a1929; margin: clamp(10px, 5vh, 50px) auto; width: 100%; max-width: 900px; border: 1px solid #00d9ff; border-radius: 12px; overflow: hidden; }
+        .modal-header { background: linear-gradient(135deg, #00d9ff, #ffd700); color: #000; padding: clamp(16px, 3vw, 24px); font-size: clamp(1.2rem, 4vw, 1.5rem); font-weight: 800; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+        .close-btn { background: none; border: none; color: #000; font-size: 28px; cursor: pointer; font-weight: bold; transition: all 0.2s; }
+        .close-btn:hover { transform: scale(1.2); }
+        .modal-body { padding: clamp(16px, 3vw, 30px); max-height: 75vh; overflow-y: auto; }
+
+        /* =========================================
+           SIMULADOR — estilos integrados y adaptados
+           al tema oscuro de la página principal
+           ========================================= */
+        #simulador .sim-wrapper {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: clamp(16px, 3vw, 28px);
+        }
+
+        .sim-tabs {
+            display: flex; justify-content: center; gap: 8px; margin-bottom: 28px;
+            background: rgba(255,255,255,0.06); padding: 6px; border-radius: 12px;
+            max-width: 420px; margin-left: auto; margin-right: auto;
+        }
+        .sim-tab-btn {
+            flex: 1; background: transparent; border: none; padding: 11px 16px;
+            font-size: clamp(0.7rem, 2.5vw, 0.9rem); font-weight: 700; border-radius: 8px;
+            cursor: pointer; color: rgba(255,255,255,0.55); transition: all 0.2s;
+        }
+        .sim-tab-btn.active { background: #00d9ff; color: #000; box-shadow: 0 4px 12px rgba(0,217,255,0.3); }
+
+        .sim-view { display: none; }
+        .sim-view.active { display: block; }
+
+        /* Info bar y panel terceros */
+        .sim-info-bar {
+            background: rgba(0,217,255,0.08); color: #00d9ff;
+            border: 1px solid rgba(0,217,255,0.25); padding: 12px 16px;
+            border-radius: 8px; margin-bottom: 20px; font-size: 13px; font-weight: 500;
+        }
+        .thirds-box {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px; padding: 16px; margin-bottom: 28px;
+        }
+        .thirds-title {
+            font-size: 15px; font-weight: 700; color: #ffd700; margin-bottom: 12px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .thirds-counter { font-size: 12px; background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 20px; color: rgba(255,255,255,0.7); }
+        .thirds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(95px, 1fr)); gap: 8px; }
+        .third-btn {
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12);
+            padding: 8px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600;
+            text-align: center; transition: all 0.15s; display: flex; flex-direction: column;
+            gap: 4px; color: rgba(255,255,255,0.8);
+        }
+        .third-btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.25); }
+        .third-btn.selected { background: #16a34a; color: white; border-color: #15803d; }
+        .third-team-name { font-size: 11px; font-weight: 400; opacity: 0.9; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        /* Grid de grupos simulador */
+        .sim-group-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .sim-group-card {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px; overflow: hidden;
+        }
+        .sim-group-header {
+            background: linear-gradient(135deg, rgba(0,217,255,0.15), rgba(255,215,0,0.08));
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 12px; display: flex; align-items: center; gap: 10px;
+        }
+        .sim-group-badge {
+            background: #ffd700; color: #0a1929; font-size: 14px; font-weight: 700;
+            width: 26px; height: 26px; border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .sim-group-title { font-weight: 700; font-size: 14px; color: #fff; }
+
+        /* Filas tabla simulador */
+        .sim-table-rows-container { background: transparent; }
+        .sim-table-row {
+            display: grid; grid-template-columns: 24px minmax(0,1fr) 50px;
+            gap: 4px; align-items: center; padding: 10px 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px;
+        }
+        .sim-table-row.draggable { cursor: grab; transition: background 0.15s; }
+        .sim-table-row.draggable:hover { background: rgba(255,255,255,0.05); }
+        .sim-table-row.dragging { opacity: 0.4; background: rgba(0,217,255,0.1); }
+        .sim-table-header {
+            background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.45);
+            font-weight: 600; font-size: 11px; border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .sim-order-select {
+            font-size: 11px; padding: 2px 4px;
+            border: 1px solid rgba(255,255,255,0.2); border-radius: 4px;
+            background: rgba(255,255,255,0.08); color: #fff; cursor: pointer;
+        }
+        .sim-order-select option { background: #0a1929; }
+        .text-center { text-align: center; }
+        .fw-bold { font-weight: 700; }
+
+        /* Cuadro eliminatorio */
+        .bracket-container {
+            overflow-x: auto; padding: 20px;
+            background: rgba(255,255,255,0.02); border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .bracket-canvas { position: relative; margin: 0 auto; }
+        .bracket-card {
+            width: 140px; height: 64px;
+            background: rgba(10,25,41,0.9); border: 1px solid rgba(0,217,255,0.4);
+            border-radius: 6px; overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4); box-sizing: border-box;
+        }
+        .bracket-row {
+            display: flex; align-items: center; gap: 6px; padding: 0 8px;
+            height: 31px; font-size: 11px; font-weight: 500; cursor: pointer;
+            user-select: none; color: rgba(255,255,255,0.85); transition: background 0.15s;
+        }
+        .bracket-row:hover { background: rgba(0,217,255,0.1); }
+        .bracket-row.winner { background: rgba(255,215,0,0.15); border-left: 3px solid #ffd700; font-weight: 700; color: #ffd700; }
+        .bracket-row.empty { opacity: 0.35; cursor: default; }
+        .bracket-row .team-name-br { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+        .bracket-divider { height: 1px; background: rgba(255,255,255,0.08); }
+
+        /* Footer */
+        .site-footer {
+            text-align: center; padding: clamp(20px, 4vw, 40px) 20px; margin-top: 50px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(5,12,22,0.6); backdrop-filter: blur(8px);
+        }
+        .site-footer p { font-size: clamp(0.8rem, 2.5vw, 0.95rem); color: rgba(255,255,255,0.6); font-weight: 500; letter-spacing: 0.5px; line-height: 1.6; }
+        .site-footer p strong { background: linear-gradient(135deg, #00d9ff, #ffd700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
+        .site-footer .footer-credits { font-size: clamp(0.65rem, 2vw, 0.8rem); color: rgba(255,255,255,0.35); margin-top: 8px; text-transform: uppercase; letter-spacing: 1px; }
+
+        @media (max-width: 639px) { .header { padding: 12px 12px; } .container { padding: 20px 12px; } .match-info { order: -1; margin-bottom: 10px; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">FIFA WORLD CUP 2026</div>
+        <div class="nav">
+            <button class="nav-btn active" onclick="switchTab(event, 'calendario')">🏠 Inicio</button>
+            <button class="nav-btn" onclick="switchTab(event, 'grupos')">🏆 Grupos</button>
+            <button class="nav-btn" onclick="switchTab(event, 'calendario')">📅 Calendario</button>
+            <button class="nav-btn" onclick="switchTab(event, 'simulador')">🎮 Simulador</button>
+            <button class="nav-btn" onclick="switchTab(event, 'info')">ℹ️ Info</button>
+        </div>
+        <div class="flags">
+            <img src="https://api.fifa.com/api/v3/picture/flags-sq-1/CAN" alt="CAN">
+            <img src="https://api.fifa.com/api/v3/picture/flags-sq-1/USA" alt="USA">
+            <img src="https://api.fifa.com/api/v3/picture/flags-sq-1/MEX" alt="MEX">
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- COUNTDOWN -->
+        <div class="countdown-box">
+            <h2>⏱️ CUENTA ATRÁS PARA EL MUNDIAL</h2>
+            <div class="countdown-display">
+                <div class="countdown-item"><div id="days">0</div><div>Días</div></div>
+                <div class="countdown-item"><div id="hours">0</div><div>Horas</div></div>
+                <div class="countdown-item"><div id="minutes">0</div><div>Minutos</div></div>
+                <div class="countdown-item"><div id="seconds">0</div><div>Segundos</div></div>
+            </div>
+            <p>Inauguración: 11 de Junio 2026 • 21:00h (Madrid, España) • Estadio Azteca</p>
+        </div>
+
+        <!-- TAB: CALENDARIO -->
+        <div id="calendario" class="content-tab active">
+            <div class="section-title">📅 CALENDARIO COMPLETO</div>
+            <div class="section-subtitle">Todos los partidos del Mundial 2026™</div>
+            <div class="filters">
+                <input type="text" id="searchInput" class="search-box" placeholder="🔍 Buscar por país, estadio..." onkeyup="filterMatches()">
+                <select class="filter-select" id="venueSelect" onchange="filterMatches()"><option value="">Todas las sedes</option></select>
+                <select class="filter-select" id="dateSelect" onchange="filterMatches()"><option value="">Todas las fechas</option></select>
+                <button class="filter-btn" onclick="resetFilters()">✕ Limpiar</button>
+            </div>
+            <div id="matchesContainer"></div>
+        </div>
+
+        <!-- TAB: GRUPOS -->
+        <div id="grupos" class="content-tab">
+            <div class="section-title">🏆 GRUPOS</div>
+            <div class="section-subtitle">12 Grupos de 4 equipos</div>
+            <div class="groups-grid" id="groupsGrid"></div>
+        </div>
+
+        <!-- TAB: SIMULADOR -->
+        <div id="simulador" class="content-tab">
+            <div class="section-title">🎮 SIMULADOR DEL MUNDIAL</div>
+            <div class="section-subtitle">Ordena los grupos, elige los 8 mejores terceros y simula el cuadro final</div>
+
+            <div class="sim-wrapper">
+                <div class="sim-tabs">
+                    <button class="sim-tab-btn active" onclick="switchSimView('grupos')">FASE DE GRUPOS</button>
+                    <button class="sim-tab-btn" onclick="switchSimView('eliminatorias')">CUADRO FINAL</button>
+                </div>
+
+                <!-- Vista grupos simulador -->
+                <div id="sim-view-grupos" class="sim-view active">
+                    <div class="sim-info-bar">
+                        💡 Reordena los grupos arrastrando las filas o usando el menú desplegable. El panel de terceros se actualiza automáticamente.
+                    </div>
+                    <div class="sim-group-grid" id="sim-groups-container"></div>
+                    <div class="thirds-box" style="margin-top: 28px; margin-bottom: 0;">
+                        <div class="thirds-title">
+                            <span>Selecciona los 8 mejores terceros que avanzan:</span>
+                            <span class="thirds-counter" id="thirds-counter">0 / 8 seleccionados</span>
+                        </div>
+                        <div class="thirds-grid" id="thirds-grid"></div>
+                    </div>
+                </div>
+
+                <!-- Vista eliminatorias simulador -->
+                <div id="sim-view-eliminatorias" class="sim-view">
+                    <div class="bracket-container">
+                        <div class="bracket-canvas" id="bracket-canvas">
+                            <div id="cards-container"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: INFO -->
+        <div id="info" class="content-tab">
+            <div class="info-section">
+                <h2>🌍 FIFA World Cup 2026™</h2>
+                <p>La Copa Mundial de la FIFA 2026™ será la vigésimo tercera edición del torneo. Por primera vez contará con <strong>48 selecciones</strong> en <strong>12 grupos de 4 equipos</strong>. Será organizado por <strong>Estados Unidos, México y Canadá</strong>.</p>
+                <h3>📊 Formato</h3>
+                <ul>
+                    <li><strong>Fase de Grupos:</strong> 12 grupos de 4 equipos</li>
+                    <li><strong>Clasificación:</strong> Los 2 primeros + 8 mejores terceros (32 equipos)</li>
+                    <li><strong>Total:</strong> 48 selecciones, 104 partidos, 39 días</li>
+                    <li><strong>Debutantes:</strong> Cabo Verde, Curazao, Jordania y Uzbekistán</li>
+                </ul>
+                <h3>🏟️ Sedes</h3>
+                <div class="venues">
+                    <div class="venue"><div class="venue-title">🇺🇸 ESTADOS UNIDOS (11)</div><p>MetLife, SoFi, AT&T, Mercedes-Benz, Hard Rock, Levi's, Arrowhead, Gillette, Lincoln Financial, NRG, Lumen</p></div>
+                    <div class="venue"><div class="venue-title">🇲🇽 MÉXICO (3)</div><p>Estadio Azteca, BBVA, Akron</p></div>
+                    <div class="venue"><div class="venue-title">🇨🇦 CANADÁ (2)</div><p>BMO Field, BC Place</p></div>
+                </div>
+                <h3>🎯 Datos Clave</h3>
+                <ul>
+                    <li><strong>Inicio:</strong> 11 junio 2026, 21:00h (Madrid) - Estadio Azteca</li>
+                    <li><strong>Final:</strong> 19 julio 2026 - MetLife Stadium</li>
+                    <li><strong>Campeón:</strong> Argentina (Qatar 2022)</li>
+                </ul>
+            </div>
+
+            <!-- SECCIÓN SIMULADOR -->
+            <div class="info-section" style="margin-top: 24px;">
+                <h2>🎮 Cómo usar el simulador</h2>
+                <p>El simulador replica el cuadro oficial FIFA 2026 con sus 16 partidos de ronda de 32, los dos caminos (Pathway 1 y Pathway 2) y la final en el centro. Funciona en tres pasos:</p>
+
+                <h3>1 · Fase de grupos</h3>
+                <p>En la pestaña <strong>Simulador → Fase de grupos</strong> puedes ordenar los 4 equipos de cada grupo según el resultado que esperas. Tienes dos formas de hacerlo:</p>
+                <ul>
+                    <li><strong>Arrastrar filas:</strong> agarra cualquier equipo y suéltalo en la posición deseada.</li>
+                    <li><strong>Menú desplegable:</strong> usa el selector de posición (1º, 2º, 3º, 4º) en cada fila.</li>
+                </ul>
+                <p>El color de cada posición te indica el estado: <span style="color:#4ade80;font-weight:700">verde</span> = clasificado directo (1º y 2º), <span style="color:#fbbf24;font-weight:700">ámbar</span> = candidato a mejor tercero, gris = eliminado.</p>
+
+                <h3>2 · Mejores terceros</h3>
+                <p>De los 12 grupos clasifican los <strong>8 mejores terceros</strong>. En el panel de la parte superior del simulador aparecen los 12 terceros actuales (uno por grupo). Haz clic en los 8 que quieras que pasen. El contador muestra cuántos llevas seleccionados. Cada tercero se asigna automáticamente al partido correcto del cuadro según el reglamento FIFA.</p>
+
+                <h3>3 · Cuadro eliminatorio</h3>
+                <p>Cambia a la pestaña <strong>Cuadro Final</strong>. Verás el bracket completo dividido en dos caminos que convergen en la final central:</p>
+                <ul>
+                    <li><strong>Pathway 1</strong> (izquierda): grupos A, B, C, D, E, F, G, H con sus cruces oficiales.</li>
+                    <li><strong>Pathway 2</strong> (derecha): grupos I, J, K, L más los restantes.</li>
+                    <li>Haz <strong>clic en un equipo</strong> de cualquier tarjeta para elegirlo como ganador; avanzará automáticamente a la siguiente ronda.</li>
+                    <li>Los perdedores de las semifinales se sitúan en el partido por el <strong>3er puesto</strong>.</li>
+                </ul>
+                <p>Si cambias el orden de grupos después de haber elegido ganadores, el cuadro se recalcula y solo mantiene los resultados que siguen siendo válidos.</p>
+
+                <h3>📐 Fuente del cuadro</h3>
+                <p>Los emparejamientos de la ronda de 32 están basados en el <strong>Appendix A oficial de la FIFA</strong>.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal grupos -->
+    <div id="groupModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span id="modalTitle"></span>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <p>Hecho con <span>💙</span> e <strong>IA</strong> para la comunidad futbolera</p>
+        <p class="footer-credits">© 2026 FIFA World Cup Fan Project • Diseñado por genbyte</p>
+    </footer>
+
+<script>
+/* =========================================
+   DATOS COMPARTIDOS
+   ========================================= */
+const teams = { 'MEX': 'México', 'RSA': 'Sudáfrica', 'KOR': 'República de Corea', 'CZE': 'Chequia', 'CAN': 'Canadá', 'SUI': 'Suiza', 'QAT': 'Catar', 'BIH': 'Bosnia y Herzegovina', 'BRA': 'Brasil', 'MAR': 'Marruecos', 'HAI': 'Haití', 'SCO': 'Escocia', 'USA': 'EE. UU.', 'PAR': 'Paraguay', 'AUS': 'Australia', 'TUR': 'Turquía', 'GER': 'Alemania', 'CUW': 'Curazao', 'CIV': 'Costa de Marfil', 'ECU': 'Ecuador', 'NED': 'Países Bajos', 'JPN': 'Japón', 'TUN': 'Túnez', 'SWE': 'Suecia', 'BEL': 'Bélgica', 'EGY': 'Egipto', 'IRN': 'RI de Irán', 'NZL': 'Nueva Zelanda', 'ESP': 'España', 'CPV': 'Islas de Cabo Verde', 'KSA': 'Arabia Saudí', 'URU': 'Uruguay', 'FRA': 'Francia', 'SEN': 'Senegal', 'NOR': 'Noruega', 'IRQ': 'Irak', 'ARG': 'Argentina', 'ALG': 'Argelia', 'AUT': 'Austria', 'JOR': 'Jordania', 'POR': 'Portugal', 'COL': 'Colombia', 'UZB': 'Uzbekistán', 'COD': 'RD Congo', 'ENG': 'Inglaterra', 'CRO': 'Croacia', 'GHA': 'Ghana', 'PAN': 'Panamá' };
+const groups = { 'A': ['MEX','RSA','KOR','CZE'], 'B': ['CAN','SUI','QAT','BIH'], 'C': ['BRA','MAR','HAI','SCO'], 'D': ['USA','PAR','AUS','TUR'], 'E': ['GER','CUW','CIV','ECU'], 'F': ['NED','JPN','TUN','SWE'], 'G': ['BEL','EGY','IRN','NZL'], 'H': ['ESP','CPV','KSA','URU'], 'I': ['FRA','SEN','NOR','IRQ'], 'J': ['ARG','ALG','AUT','JOR'], 'K': ['POR','COL','UZB','COD'], 'L': ['ENG','CRO','GHA','PAN'] };
+
+function getFlagUrl(code) {
+    if (!teams[code]) return 'https://flagcdn.com/w80/un.png';
+    return `https://api.fifa.com/api/v3/picture/flags-sq-1/${code}`;
+}
+
+const allMatches = [
+    {date:'2026-06-11',time:'21:00',home:'MEX',away:'RSA',venue:'Estadio Azteca (CDMX)',group:'A'},
+    {date:'2026-06-12',time:'04:00',home:'KOR',away:'CZE',venue:'Estadio Guadalajara',group:'A'},
+    {date:'2026-06-12',time:'21:00',home:'CAN',away:'BIH',venue:'Estadio Toronto',group:'B'},
+    {date:'2026-06-13',time:'03:00',home:'USA',away:'PAR',venue:'Estadio Los Ángeles',group:'D'},
+    {date:'2026-06-13',time:'21:00',home:'QAT',away:'SUI',venue:'Estadio Bahía de San Francisco',group:'B'},
+    {date:'2026-06-14',time:'00:00',home:'BRA',away:'MAR',venue:'Estadio Nueva York Nueva Jersey',group:'C'},
+    {date:'2026-06-14',time:'03:00',home:'HAI',away:'SCO',venue:'Estadio Boston',group:'C'},
+    {date:'2026-06-14',time:'06:00',home:'AUS',away:'TUR',venue:'Estadio BC Place Vancouver',group:'D'},
+    {date:'2026-06-14',time:'19:00',home:'GER',away:'CUW',venue:'Estadio Houston',group:'E'},
+    {date:'2026-06-14',time:'22:00',home:'NED',away:'JPN',venue:'Estadio Dallas',group:'F'},
+    {date:'2026-06-15',time:'01:00',home:'CIV',away:'ECU',venue:'Estadio Filadelfia',group:'E'},
+    {date:'2026-06-15',time:'04:00',home:'SWE',away:'TUN',venue:'Estadio Monterrey',group:'F'},
+    {date:'2026-06-15',time:'18:00',home:'ESP',away:'CPV',venue:'Estadio Atlanta',group:'H'},
+    {date:'2026-06-15',time:'21:00',home:'BEL',away:'EGY',venue:'Estadio Seattle',group:'G'},
+    {date:'2026-06-16',time:'00:00',home:'KSA',away:'URU',venue:'Estadio Miami',group:'H'},
+    {date:'2026-06-16',time:'03:00',home:'IRN',away:'NZL',venue:'Estadio Los Ángeles',group:'G'},
+    {date:'2026-06-16',time:'21:00',home:'FRA',away:'SEN',venue:'Estadio Nueva York Nueva Jersey',group:'I'},
+    {date:'2026-06-17',time:'00:00',home:'IRQ',away:'NOR',venue:'Estadio Boston',group:'I'},
+    {date:'2026-06-17',time:'03:00',home:'ARG',away:'ALG',venue:'Estadio Kansas City',group:'J'},
+    {date:'2026-06-17',time:'06:00',home:'AUT',away:'JOR',venue:'Estadio Bahía de San Francisco',group:'J'},
+    {date:'2026-06-17',time:'19:00',home:'POR',away:'COD',venue:'Estadio Houston',group:'K'},
+    {date:'2026-06-17',time:'22:00',home:'ENG',away:'CRO',venue:'Estadio Dallas',group:'L'},
+    {date:'2026-06-18',time:'01:00',home:'GHA',away:'PAN',venue:'Estadio Toronto',group:'L'},
+    {date:'2026-06-18',time:'04:00',home:'UZB',away:'COL',venue:'Estadio Azteca (CDMX)',group:'K'},
+    {date:'2026-06-18',time:'18:00',home:'CZE',away:'RSA',venue:'Estadio Atlanta',group:'A'},
+    {date:'2026-06-18',time:'21:00',home:'SUI',away:'BIH',venue:'Estadio Los Ángeles',group:'B'},
+    {date:'2026-06-19',time:'00:00',home:'CAN',away:'QAT',venue:'Estadio BC Place Vancouver',group:'B'},
+    {date:'2026-06-19',time:'03:00',home:'MEX',away:'KOR',venue:'Estadio Guadalajara',group:'A'},
+    {date:'2026-06-19',time:'21:00',home:'USA',away:'AUS',venue:'Estadio Bahía de San Francisco',group:'D'},
+    {date:'2026-06-20',time:'00:00',home:'SCO',away:'MAR',venue:'Estadio Filadelfia',group:'C'},
+    {date:'2026-06-20',time:'02:30',home:'BRA',away:'HAI',venue:'Estadio Houston',group:'C'},
+    {date:'2026-06-20',time:'05:00',home:'TUR',away:'PAR',venue:'Estadio Toronto',group:'D'},
+    {date:'2026-06-20',time:'19:00',home:'NED',away:'SWE',venue:'Estadio Boston',group:'F'},
+    {date:'2026-06-20',time:'22:00',home:'GER',away:'CIV',venue:'Estadio Atlanta',group:'E'},
+    {date:'2026-06-21',time:'02:00',home:'ECU',away:'CUW',venue:'Estadio Miami',group:'E'},
+    {date:'2026-06-21',time:'06:00',home:'TUN',away:'JPN',venue:'Estadio Los Ángeles',group:'F'},
+    {date:'2026-06-21',time:'18:00',home:'ESP',away:'KSA',venue:'Estadio Guadalajara',group:'H'},
+    {date:'2026-06-21',time:'21:00',home:'BEL',away:'IRN',venue:'Estadio Nueva York Nueva Jersey',group:'G'},
+    {date:'2026-06-22',time:'00:00',home:'URU',away:'CPV',venue:'Estadio Houston',group:'H'},
+    {date:'2026-06-22',time:'03:00',home:'NZL',away:'EGY',venue:'Estadio Dallas',group:'G'},
+    {date:'2026-06-22',time:'19:00',home:'ARG',away:'AUT',venue:'Estadio Los Ángeles',group:'J'},
+    {date:'2026-06-22',time:'23:00',home:'FRA',away:'IRQ',venue:'Estadio Kansas City',group:'I'},
+    {date:'2026-06-23',time:'02:00',home:'NOR',away:'SEN',venue:'Estadio Boston',group:'I'},
+    {date:'2026-06-23',time:'05:00',home:'JOR',away:'ALG',venue:'Estadio Miami',group:'J'},
+    {date:'2026-06-23',time:'19:00',home:'POR',away:'UZB',venue:'Estadio Dallas',group:'K'},
+    {date:'2026-06-23',time:'22:00',home:'ENG',away:'GHA',venue:'Estadio Seattle',group:'L'},
+    {date:'2026-06-24',time:'01:00',home:'PAN',away:'CRO',venue:'Estadio Monterrey',group:'L'},
+    {date:'2026-06-24',time:'04:00',home:'COL',away:'COD',venue:'Estadio Filadelfia',group:'K'},
+    {date:'2026-06-24',time:'21:00',home:'SUI',away:'CAN',venue:'Estadio Toronto',group:'B'},
+    {date:'2026-06-24',time:'21:00',home:'BIH',away:'QAT',venue:'Estadio Atlanta',group:'B'},
+    {date:'2026-06-25',time:'00:00',home:'SCO',away:'BRA',venue:'Estadio Houston',group:'C'},
+    {date:'2026-06-25',time:'00:00',home:'MAR',away:'HAI',venue:'Estadio Guadalajara',group:'C'},
+    {date:'2026-06-25',time:'03:00',home:'CZE',away:'MEX',venue:'Estadio Azteca (CDMX)',group:'A'},
+    {date:'2026-06-25',time:'03:00',home:'RSA',away:'KOR',venue:'Estadio Miami',group:'A'},
+    {date:'2026-06-25',time:'22:00',home:'CUW',away:'CIV',venue:'Estadio Filadelfia',group:'E'},
+    {date:'2026-06-25',time:'22:00',home:'ECU',away:'GER',venue:'Estadio Dallas',group:'E'},
+    {date:'2026-06-26',time:'01:00',home:'JPN',away:'SWE',venue:'Estadio Boston',group:'F'},
+    {date:'2026-06-26',time:'01:00',home:'TUN',away:'NED',venue:'Estadio Atlanta',group:'F'},
+    {date:'2026-06-26',time:'04:00',home:'TUR',away:'USA',venue:'Estadio Seattle',group:'D'},
+    {date:'2026-06-26',time:'04:00',home:'PAR',away:'AUS',venue:'Estadio Monterrey',group:'D'},
+    {date:'2026-06-26',time:'21:00',home:'NOR',away:'FRA',venue:'Estadio Filadelfia',group:'I'},
+    {date:'2026-06-26',time:'21:00',home:'SEN',away:'IRQ',venue:'Estadio Toronto',group:'I'},
+    {date:'2026-06-27',time:'02:00',home:'CPV',away:'KSA',venue:'Estadio Los Ángeles',group:'H'},
+    {date:'2026-06-27',time:'02:00',home:'URU',away:'ESP',venue:'Estadio Houston',group:'H'},
+    {date:'2026-06-27',time:'05:00',home:'EGY',away:'IRN',venue:'Estadio Kansas City',group:'G'},
+    {date:'2026-06-27',time:'05:00',home:'NZL',away:'BEL',venue:'Estadio Bahía de San Francisco',group:'G'},
+    {date:'2026-06-27',time:'23:00',home:'PAN',away:'ENG',venue:'Estadio Los Ángeles',group:'L'},
+    {date:'2026-06-27',time:'23:00',home:'CRO',away:'GHA',venue:'Estadio Bahía de San Francisco',group:'L'},
+    {date:'2026-06-28',time:'01:30',home:'COL',away:'POR',venue:'Estadio Seattle',group:'K'},
+    {date:'2026-06-28',time:'01:30',home:'COD',away:'UZB',venue:'Estadio Monterrey',group:'K'},
+    {date:'2026-06-28',time:'04:00',home:'ALG',away:'AUT',venue:'Estadio Boston',group:'J'},
+    {date:'2026-06-28',time:'04:00',home:'JOR',away:'ARG',venue:'Estadio Nueva York Nueva Jersey',group:'J'},
+    {date:'2026-06-28',time:'21:00',home:'2A',away:'2B',venue:'Estadio Azteca (CDMX)',group:'Eliminatorias'},
+    {date:'2026-06-29',time:'19:00',home:'1C',away:'2F',venue:'Estadio Boston',group:'Eliminatorias'},
+    {date:'2026-06-29',time:'22:30',home:'1E',away:'3A/B/C/D/F',venue:'Estadio Toronto',group:'Eliminatorias'},
+    {date:'2026-06-30',time:'03:00',home:'1F',away:'2C',venue:'Estadio Los Ángeles',group:'Eliminatorias'},
+    {date:'2026-06-30',time:'19:00',home:'2E',away:'2I',venue:'Estadio Filadelfia',group:'Eliminatorias'},
+    {date:'2026-06-30',time:'23:00',home:'1I',away:'3C/D/F/G/H',venue:'Estadio Atlanta',group:'Eliminatorias'},
+    {date:'2026-07-01',time:'03:00',home:'1A',away:'3C/E/F/H/I',venue:'Estadio San Francisco',group:'Eliminatorias'},
+    {date:'2026-07-01',time:'18:00',home:'1L',away:'3E/H/I/J/K',venue:'Estadio Seattle',group:'Eliminatorias'},
+    {date:'2026-07-01',time:'22:00',home:'1G',away:'3A/E/H/I/J',venue:'Estadio Dallas',group:'Eliminatorias'},
+    {date:'2026-07-02',time:'02:00',home:'1D',away:'3B/E/F/I/J',venue:'Estadio Houston',group:'Eliminatorias'},
+    {date:'2026-07-02',time:'21:00',home:'1H',away:'2J',venue:'Estadio Monterrey',group:'Eliminatorias'},
+    {date:'2026-07-03',time:'01:00',home:'2K',away:'2L',venue:'Estadio Kansas City',group:'Eliminatorias'},
+    {date:'2026-07-03',time:'05:00',home:'1B',away:'3E/F/G/I/J',venue:'Estadio Vancouver',group:'Eliminatorias'},
+    {date:'2026-07-03',time:'20:00',home:'2D',away:'2G',venue:'Estadio Miami',group:'Eliminatorias'},
+    {date:'2026-07-04',time:'00:00',home:'1J',away:'2H',venue:'Estadio Nueva York',group:'Eliminatorias'},
+    {date:'2026-07-04',time:'03:30',home:'1K',away:'3D/E/I/J/L',venue:'Estadio Guadalajara',group:'Eliminatorias'},
+    {date:'2026-07-04',time:'19:00',home:'W73',away:'W75',venue:'Estadio Filadelfia',group:'Octavos'},
+    {date:'2026-07-04',time:'23:00',home:'W74',away:'W77',venue:'Estadio Houston',group:'Octavos'},
+    {date:'2026-07-05',time:'22:00',home:'W76',away:'W78',venue:'Estadio Nueva York',group:'Octavos'},
+    {date:'2026-07-06',time:'02:00',home:'W79',away:'W80',venue:'Estadio Azteca (CDMX)',group:'Octavos'},
+    {date:'2026-07-06',time:'21:00',home:'W83',away:'W84',venue:'Estadio Dallas',group:'Octavos'},
+    {date:'2026-07-07',time:'02:00',home:'W81',away:'W82',venue:'Estadio Seattle',group:'Octavos'},
+    {date:'2026-07-07',time:'18:00',home:'W86',away:'W88',venue:'Estadio Atlanta',group:'Octavos'},
+    {date:'2026-07-07',time:'22:00',home:'W85',away:'W87',venue:'Estadio Vancouver',group:'Octavos'},
+    {date:'2026-07-09',time:'22:00',home:'W89',away:'W90',venue:'Estadio Boston',group:'Cuartos'},
+    {date:'2026-07-10',time:'21:00',home:'W93',away:'W94',venue:'Estadio Los Ángeles',group:'Cuartos'},
+    {date:'2026-07-11',time:'23:00',home:'W91',away:'W92',venue:'Estadio Miami',group:'Cuartos'},
+    {date:'2026-07-12',time:'03:00',home:'W95',away:'W96',venue:'Estadio Kansas City',group:'Cuartos'},
+    {date:'2026-07-14',time:'21:00',home:'W97',away:'W98',venue:'Estadio Dallas',group:'Semifinal'},
+    {date:'2026-07-15',time:'21:00',home:'W99',away:'W100',venue:'Estadio Atlanta',group:'Semifinal'},
+    {date:'2026-07-18',time:'23:00',home:'RU101',away:'RU102',venue:'Estadio Hard Rock (Miami)',group:'3er Puesto'},
+    {date:'2026-07-19',time:'21:00',home:'W101',away:'W102',venue:'Estadio MetLife (NJ)',group:'Final'}
+];
+
+/* =========================================
+   NAVEGACIÓN PRINCIPAL
+   ========================================= */
+function switchTab(e, tab) {
+    document.querySelectorAll('.content-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(tab).classList.add('active');
+    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+    e.target.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* =========================================
+   CALENDARIO
+   ========================================= */
+function loadMatches() {
+    const container = document.getElementById('matchesContainer');
+
+    // Poblar select de sedes
+    const venueSelect = document.getElementById('venueSelect');
+    const venues = [...new Set(allMatches.map(m => m.venue))].sort();
+    venueSelect.innerHTML = '<option value="">Todas las sedes</option>' +
+        venues.map(v => `<option value="${v}">${v}</option>`).join('');
+
+    // Poblar select de fechas
+    const dateSelect = document.getElementById('dateSelect');
+    const dates = [...new Set(allMatches.map(m => m.date))].sort();
+    dateSelect.innerHTML = '<option value="">Todas las fechas</option>' +
+        dates.map(d => {
+            const label = new Date(d).toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' });
+            return `<option value="${d}">${label}</option>`;
+        }).join('');
+
+    const grouped = {};
+    allMatches.forEach(match => {
+        if (!grouped[match.date]) grouped[match.date] = [];
+        grouped[match.date].push(match);
+    });
+    let html = '';
+    for (let date in grouped) {
+        const d = new Date(date);
+        const formattedDate = d.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
+        html += `<div class="date-group" data-date="${date}"><div class="date-header">📅 ${formattedDate}</div>`;
+        grouped[date].forEach(m => {
+            html += `<div class="match">
+                <div class="match-time"><div class="match-time-hour">${m.time}</div><div class="match-time-zone">(Madrid · CEST)</div></div>
+                <div class="match-content">
+                    <div class="team"><img src="${getFlagUrl(m.home)}"> ${teams[m.home] || m.home}</div>
+                    <div class="vs">VS</div>
+                    <div class="team"><img src="${getFlagUrl(m.away)}"> ${teams[m.away] || m.away}</div>
+                </div>
+                <div class="match-info"><div class="match-venue">🏟️ ${m.venue}</div><div class="group-badge">GRUPO ${m.group}</div></div>
+            </div>`;
+        });
+        html += `</div>`;
+    }
+    container.innerHTML = html;
+}
+
+function filterMatches() {
+    const search    = document.getElementById('searchInput').value.toLowerCase();
+    const venue     = document.getElementById('venueSelect').value;
+    const dateVal   = document.getElementById('dateSelect').value;
+    document.querySelectorAll('#matchesContainer .date-group').forEach(group => {
+        // Filtro de fecha: comparar el data-date del grupo
+        if (dateVal && group.dataset.date !== dateVal) {
+            group.style.display = 'none';
+            return;
+        }
+        let anyVisible = false;
+        group.querySelectorAll('.match').forEach(match => {
+            const text = match.textContent.toLowerCase();
+            const matchesSearch = !search || text.includes(search);
+            const matchesVenue  = !venue  || text.includes(venue.toLowerCase());
+            const visible = matchesSearch && matchesVenue;
+            match.style.display = visible ? 'grid' : 'none';
+            if (visible) anyVisible = true;
+        });
+        group.style.display = anyVisible ? 'block' : 'none';
+    });
+}
+
+function resetFilters() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('venueSelect').value = '';
+    document.getElementById('dateSelect').value  = '';
+    filterMatches();
+}
+
+/* =========================================
+   GRUPOS (pestaña grupos - tarjetas oscuras)
+   ========================================= */
+function loadGroups() {
+    const grid = document.getElementById('groupsGrid');
+    let html = '';
+    for (let g in groups) {
+        html += `<div class="group-card-dark" onclick="openGroup('${g}')"><div class="group-title-dark">GRUPO ${g}</div>`;
+        groups[g].forEach(code => {
+            html += `<div class="team-item"><img src="${getFlagUrl(code)}"> ${teams[code]}</div>`;
+        });
+        html += `</div>`;
+    }
+    grid.innerHTML = html;
+}
+
+function openGroup(g) {
+    document.getElementById('modalTitle').textContent = `⚽ PARTIDOS DEL GRUPO ${g}`;
+    const groupMatches = allMatches.filter(m => m.group === g);
+    let html = '';
+    groupMatches.forEach(m => {
+        html += `<div class="match">
+            <div class="match-time"><div class="match-time-hour">${m.time}</div><div class="match-time-zone">(Madrid · CEST)</div></div>
+            <div class="match-content">
+                <div class="team"><img src="${getFlagUrl(m.home)}"> ${teams[m.home] || m.home}</div>
+                <div class="vs">VS</div>
+                <div class="team"><img src="${getFlagUrl(m.away)}"> ${teams[m.away] || m.away}</div>
+            </div>
+            <div class="match-info"><div class="match-venue">🏟️ ${m.venue}</div><div class="match-date">${new Date(m.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}</div></div>
+        </div>`;
+    });
+    document.getElementById('modalBody').innerHTML = html;
+    document.getElementById('groupModal').style.display = 'block';
+}
+
+function closeModal() { document.getElementById('groupModal').style.display = 'none'; }
+
+/* =========================================
+   COUNTDOWN
+   ========================================= */
+function updateCountdown() {
+    const target = new Date('2026-06-11T21:00:00+02:00').getTime();
+    const now = new Date().getTime();
+    const diff = target - now;
+    if (diff > 0) {
+        document.getElementById('days').textContent    = Math.floor(diff / (1000*60*60*24));
+        document.getElementById('hours').textContent   = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+        document.getElementById('minutes').textContent = Math.floor((diff % (1000*60*60)) / (1000*60));
+        document.getElementById('seconds').textContent = Math.floor((diff % (1000*60)) / 1000);
+    }
+}
+
+/* =========================================
+   SIMULADOR — lógica completa adaptada
+   ========================================= */
+const SIM_GROUPS = {
+  A: [{name:"México",abbr:"MEX"},{name:"Sudáfrica",abbr:"RSA"},{name:"Corea del Sur",abbr:"KOR"},{name:"Chequia",abbr:"CZE"}],
+  B: [{name:"Canadá",abbr:"CAN"},{name:"Suiza",abbr:"SUI"},{name:"Catar",abbr:"QAT"},{name:"Bosnia",abbr:"BIH"}],
+  C: [{name:"Brasil",abbr:"BRA"},{name:"Marruecos",abbr:"MAR"},{name:"Haití",abbr:"HAI"},{name:"Escocia",abbr:"SCO"}],
+  D: [{name:"EE. UU.",abbr:"USA"},{name:"Paraguay",abbr:"PAR"},{name:"Australia",abbr:"AUS"},{name:"Turquía",abbr:"TUR"}],
+  E: [{name:"Alemania",abbr:"GER"},{name:"Curazao",abbr:"CUW"},{name:"Costa de Marfil",abbr:"CIV"},{name:"Ecuador",abbr:"ECU"}],
+  F: [{name:"P. Bajos",abbr:"NED"},{name:"Japón",abbr:"JPN"},{name:"Túnez",abbr:"TUN"},{name:"Suecia",abbr:"SWE"}],
+  G: [{name:"Bélgica",abbr:"BEL"},{name:"Egipto",abbr:"EGY"},{name:"Irán",abbr:"IRN"},{name:"N. Zelanda",abbr:"NZL"}],
+  H: [{name:"España",abbr:"ESP"},{name:"Cabo Verde",abbr:"CPV"},{name:"Arabia Saudí",abbr:"KSA"},{name:"Uruguay",abbr:"URU"}],
+  I: [{name:"Francia",abbr:"FRA"},{name:"Senegal",abbr:"SEN"},{name:"Noruega",abbr:"NOR"},{name:"Irak",abbr:"IRQ"}],
+  J: [{name:"Argentina",abbr:"ARG"},{name:"Argelia",abbr:"ALG"},{name:"Austria",abbr:"AUT"},{name:"Jordania",abbr:"JOR"}],
+  K: [{name:"Portugal",abbr:"POR"},{name:"Colombia",abbr:"COL"},{name:"Uzbekistán",abbr:"UZB"},{name:"RD Congo",abbr:"COD"}],
+  L: [{name:"Inglaterra",abbr:"ENG"},{name:"Croacia",abbr:"CRO"},{name:"Ghana",abbr:"GHA"},{name:"Panamá",abbr:"PAN"}]
+};
+
+const GIDS = Object.keys(SIM_GROUPS);
+
+// ── Cuadro oficial FIFA 2026 (Appendix A) ──────────────────────────────────
+// 16 partidos R32. Cada entrada: { label, t1src, t2src }
+// src: { type:'1'|'2'|'3', group:'X' }  o  { type:'winner'|'loser', match: mId }
+// Los 16 partidos en orden visual del cuadro (P1 arriba→abajo, luego P2 abajo→arriba):
+// P1: M74,M77,M73,M76,M83,M84,M81,M82
+// P2: M76→ en el Appendix están M76,M78,M79,M80,M86,M88,M85,M87
+// Nota: usamos índices 0-15 para el array bracketState.r32
+
+// Emparejamientos R32 según Appendix A
+// Pathway 1 (izquierda, slots 0-7):
+//   M74: 1E vs 3A/B/C/D/F  → slot 0
+//   M77: 1I vs 3C/D/F/G/H  → slot 1   (en el appendix: 1l vs 3CDFGH)
+//   M73: 2A vs 2B           → slot 2
+//   M76: 1F vs 2C           → slot 3
+//   M83: 2K vs 2L           → slot 4
+//   M84: 1H vs 2J           → slot 5
+//   M81: 1D vs 3B/E/F/I/J   → slot 6
+//   M82: 1G vs 3A/E/H/I/J   → slot 7
+// Pathway 2 (derecha, slots 8-15):
+//   M76b→ M76: 1C vs 2F     → slot 8
+//   M78: 2E vs 2I           → slot 9
+//   M79: 1A vs 3C/E/F/H/I   → slot 10
+//   M80: 1L vs 3E/H/I/J/K   → slot 11
+//   M86: 1J vs 2H           → slot 12
+//   M88: 2D vs 2G           → slot 13
+//   M85: 1B vs 3E/F/G/I/J   → slot 14
+//   M87: 1K vs 3D/E/I/J/L   → slot 15
+
+// Para la visualización: el cuadro se dibuja con Pathway1 a la izquierda
+// avanzando hacia el centro, Pathway2 a la derecha avanzando al centro.
+// Layout: P1_R32 | P1_R16 | P1_QF | P1_SF | FINAL | P2_SF | P2_QF | P2_R16 | P2_R32
+
+const R32_MATCHES = [
+  // Pathway 1 (índices 0-7) — avanzan a la izquierda
+  { id:'M74', label:'1E vs 3ABCDF',   t1:{ pos:1, g:'E' }, t2:{ pos:3, gs:['A','B','C','D','F'] } },
+  { id:'M77', label:'1I vs 3CDFGH',   t1:{ pos:1, g:'I' }, t2:{ pos:3, gs:['C','D','F','G','H'] } },
+  { id:'M73', label:'2A vs 2B',        t1:{ pos:2, g:'A' }, t2:{ pos:2, g:'B' } },
+  { id:'M76', label:'1F vs 2C',        t1:{ pos:1, g:'F' }, t2:{ pos:2, g:'C' } },
+  { id:'M83', label:'2K vs 2L',        t1:{ pos:2, g:'K' }, t2:{ pos:2, g:'L' } },
+  { id:'M84', label:'1H vs 2J',        t1:{ pos:1, g:'H' }, t2:{ pos:2, g:'J' } },
+  { id:'M81', label:'1D vs 3BEFIJ',   t1:{ pos:1, g:'D' }, t2:{ pos:3, gs:['B','E','F','I','J'] } },
+  { id:'M82', label:'1G vs 3AEHIJ',   t1:{ pos:1, g:'G' }, t2:{ pos:3, gs:['A','E','H','I','J'] } },
+  // Pathway 2 (índices 8-15) — avanzan a la derecha (orden visual invertido en pantalla)
+  { id:'M76b',label:'1C vs 2F',        t1:{ pos:1, g:'C' }, t2:{ pos:2, g:'F' } },
+  { id:'M78', label:'2E vs 2I',        t1:{ pos:2, g:'E' }, t2:{ pos:2, g:'I' } },
+  { id:'M79', label:'1A vs 3CEFHI',   t1:{ pos:1, g:'A' }, t2:{ pos:3, gs:['C','E','F','H','I'] } },
+  { id:'M80', label:'1L vs 3EHIJK',   t1:{ pos:1, g:'L' }, t2:{ pos:3, gs:['E','H','I','J','K'] } },
+  { id:'M86', label:'1J vs 2H',        t1:{ pos:1, g:'J' }, t2:{ pos:2, g:'H' } },
+  { id:'M88', label:'2D vs 2G',        t1:{ pos:2, g:'D' }, t2:{ pos:2, g:'G' } },
+  { id:'M85', label:'1B vs 3EFGIJ',   t1:{ pos:1, g:'B' }, t2:{ pos:3, gs:['E','F','G','I','J'] } },
+  { id:'M87', label:'1K vs 3DEIJL',   t1:{ pos:1, g:'K' }, t2:{ pos:3, gs:['D','E','I','J','L'] } },
+];
+
+// R16 emparejamientos (ganadores de R32):
+// P1: M89=W74vW77, M90=W73vW76, M93=W83vW84, M94=W81vW82
+// P2: M91=W76bvW78, M92=W79vW80, M95=W86vW88, M96=W85vW87
+// slot R16: 0=M89,1=M90,2=M93,3=M94  |  4=M91,5=M92,6=M95,7=M96
+const R16_PAIRS = [[0,1],[2,3],[4,5],[6,7],[8,9],[10,11],[12,13],[14,15]];
+// P1: R16[0]=W(r32[0]) v W(r32[1]), R16[1]=W(r32[2]) v W(r32[3])
+//     R16[2]=W(r32[4]) v W(r32[5]), R16[3]=W(r32[6]) v W(r32[7])
+// P2: R16[4]=W(r32[8]) v W(r32[9]), ...
+
+// QF: M97=W89vW90, M98=W93vW94  | M99=W91vW92, M100=W95vW96
+// SF: M101=W97vW98 | M102=W99vW100
+// FIN: M104=W101vW102   BRONZE: M103=L101vL102
+
+// Estado
+const groupOrdersState = Object.fromEntries(GIDS.map(k=>[k,JSON.parse(JSON.stringify(SIM_GROUPS[k]))]));
+// bracketState: r32[0..15], r16[0..7], qf[0..3], sf[0..1], fin[0], bron[0]
+const mkSlots = n => Array.from({length:n}, ()=>({t1:null,t2:null,w:null}));
+const bracketState = { r32:mkSlots(16), r16:mkSlots(8), qf:mkSlots(4), sf:mkSlots(2), fin:mkSlots(1), bron:mkSlots(1) };
+let selectedThirds = [];
+
+function switchSimView(view) {
+    document.querySelectorAll('.sim-tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.sim-view').forEach(v=>v.classList.remove('active'));
+    if (view==='grupos') {
+        document.querySelectorAll('.sim-tab-btn')[0].classList.add('active');
+        document.getElementById('sim-view-grupos').classList.add('active');
+    } else {
+        document.querySelectorAll('.sim-tab-btn')[1].classList.add('active');
+        document.getElementById('sim-view-eliminatorias').classList.add('active');
+        renderBracket();
+    }
+}
+
+function changeOrderViaSelect(gid, currentIdx, targetPositionValue) {
+    const targetIdx = parseInt(targetPositionValue,10)-1;
+    const list = groupOrdersState[gid];
+    const removed = list.splice(currentIdx,1)[0];
+    list.splice(targetIdx,0,removed);
+    renderSimGroup(gid);
+    renderThirdsPanel();
+    updateBracketLogic();
+}
+
+function renderSimGroup(gid) {
+    const container = document.getElementById(`sim-card-${gid}`);
+    const simTeams = groupOrdersState[gid];
+    let html = `
+        <div class="sim-group-header">
+            <div class="sim-group-badge">${gid}</div>
+            <span class="sim-group-title">Grupo ${gid}</span>
+        </div>
+        <div class="sim-table-row sim-table-header"><span>POS</span><span>EQUIPO</span><span class="text-center">ORDEN</span></div>
+        <div class="sim-table-rows-container" id="sim-rows-${gid}">`;
+    simTeams.forEach((t,i) => {
+        const color = i<2 ? '#4ade80' : (i===2 ? '#fbbf24' : 'rgba(255,255,255,0.4)');
+        html += `<div class="sim-table-row draggable" draggable="true" data-index="${i}" data-gid="${gid}">
+            <span class="fw-bold" style="color:${color}">${i+1}</span>
+            <span class="${i<2?'fw-bold':''}" style="color:${i<2?'#fff':'rgba(255,255,255,0.7)'}">${t.name}</span>
+            <span class="text-center">
+                <select class="sim-order-select" onchange="changeOrderViaSelect('${gid}',${i},this.value)">
+                    <option ${i===0?'selected':''} value="1">1º</option>
+                    <option ${i===1?'selected':''} value="2">2º</option>
+                    <option ${i===2?'selected':''} value="3">3º</option>
+                    <option ${i===3?'selected':''} value="4">4º</option>
+                </select>
+            </span>
+        </div>`;
+    });
+    html += `</div>`;
+    container.innerHTML = html;
+    setupSimDragDrop(gid);
+}
+
+function setupSimDragDrop(gid) {
+    const container = document.getElementById(`sim-rows-${gid}`);
+    container.querySelectorAll('.sim-table-row.draggable').forEach(row => {
+        row.addEventListener('dragstart', () => row.classList.add('dragging'));
+        row.addEventListener('dragend', () => {
+            row.classList.remove('dragging');
+            const currentRows = Array.from(container.querySelectorAll('.sim-table-row.draggable'));
+            groupOrdersState[gid] = currentRows.map(r => SIM_GROUPS[gid].find(te => te.name === r.children[1].innerText));
+            renderSimGroup(gid);
+            renderThirdsPanel();
+            updateBracketLogic();
+        });
+    });
+    container.addEventListener('dragover', e => {
+        e.preventDefault();
+        const afterElement = getSimDragAfter(container, e.clientY);
+        const dragging = document.querySelector('.dragging');
+        if (dragging && dragging.getAttribute('data-gid') === gid) {
+            if (afterElement == null) container.appendChild(dragging);
+            else container.insertBefore(dragging, afterElement);
+        }
+    });
+}
+
+function getSimDragAfter(container, y) {
+    return [...container.querySelectorAll('.sim-table-row.draggable:not(.dragging)')].reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height/2;
+        return (offset < 0 && offset > closest.offset) ? {offset, element: child} : closest;
+    }, {offset: -Infinity}).element;
+}
+
+function renderThirdsPanel() {
+    const grid = document.getElementById('thirds-grid');
+    grid.innerHTML = '';
+    GIDS.forEach(gid => {
+        const thirdTeam = groupOrdersState[gid][2];
+        const isSelected = selectedThirds.includes(gid);
+        const btn = document.createElement('div');
+        btn.className = `third-btn ${isSelected?'selected':''}`;
+        btn.innerHTML = `<div>3º Grupo ${gid}</div><div class="third-team-name">${thirdTeam?thirdTeam.name:'—'}</div>`;
+        btn.onclick = () => {
+            if (isSelected) { selectedThirds = selectedThirds.filter(g=>g!==gid); }
+            else { if (selectedThirds.length>=8) selectedThirds.shift(); selectedThirds.push(gid); }
+            renderThirdsPanel();
+            updateBracketLogic();
+        };
+        grid.appendChild(btn);
+    });
+    document.getElementById('thirds-counter').innerText = `${selectedThirds.length} / 8 seleccionados`;
+}
+
+// Resuelve a qué equipo apunta un slot-source dado el estado actual
+function resolveTeam(src) {
+    if (!src) return null;
+    if (src.pos === 3) {
+        // Tercer puesto: buscar entre los selectedThirds cuál coincide con los grupos posibles
+        const match = selectedThirds.find(g => src.gs.includes(g));
+        return match ? (groupOrdersState[match][2] || null) : null;
+    }
+    const team = groupOrdersState[src.g]?.[src.pos - 1];
+    return team || null;
+}
+
+function updateBracketLogic() {
+    // Rellenar R32 con los equipos actuales
+    R32_MATCHES.forEach((m, i) => {
+        const prev = bracketState.r32[i];
+        const t1 = resolveTeam(m.t1);
+        const t2 = resolveTeam(m.t2);
+        // Invalidar ganador si ya no está entre los participantes
+        const w = (prev.w && t1 && prev.w.name===t1.name) ? t1
+                : (prev.w && t2 && prev.w.name===t2.name) ? t2
+                : null;
+        bracketState.r32[i] = { t1, t2, w };
+    });
+
+    // Propagar ganadores ronda a ronda
+    function propagate(srcRound, dstRound, pairs) {
+        pairs.forEach(([a, b], i) => {
+            const mA = bracketState[srcRound][a];
+            const mB = bracketState[srcRound][b];
+            const t1 = mA.w || null;
+            const t2 = mB.w || null;
+            const prev = bracketState[dstRound][i];
+            const w = (prev.w && t1 && prev.w.name===t1.name) ? t1
+                    : (prev.w && t2 && prev.w.name===t2.name) ? t2
+                    : null;
+            bracketState[dstRound][i] = { t1, t2, w };
+        });
+    }
+
+    propagate('r32','r16',[[0,1],[2,3],[4,5],[6,7],[8,9],[10,11],[12,13],[14,15]]);
+    propagate('r16','qf', [[0,1],[2,3],[4,5],[6,7]]);
+    propagate('qf', 'sf', [[0,1],[2,3]]);
+
+    // Semifinales → Final y Tercer Puesto
+    const sf0 = bracketState.sf[0], sf1 = bracketState.sf[1];
+    // Final: ganadores de ambas semis
+    { const t1=sf0.w||null, t2=sf1.w||null;
+      const pw=bracketState.fin[0].w;
+      const w=(pw&&t1&&pw.name===t1.name)?t1:(pw&&t2&&pw.name===t2.name)?t2:null;
+      bracketState.fin[0]={t1,t2,w}; }
+    // Tercer puesto: perdedores de las semis (si se eligió ganador)
+    { const t1=(sf0.w&&sf0.t1&&sf0.w.name!==sf0.t1.name)?sf0.t1:(sf0.w&&sf0.t2&&sf0.w.name!==sf0.t2.name)?sf0.t2:null;
+      const t2=(sf1.w&&sf1.t1&&sf1.w.name!==sf1.t1.name)?sf1.t1:(sf1.w&&sf1.t2&&sf1.w.name!==sf1.t2.name)?sf1.t2:null;
+      const pw=bracketState.bron[0].w;
+      const w=(pw&&t1&&pw.name===t1.name)?t1:(pw&&t2&&pw.name===t2.name)?t2:null;
+      bracketState.bron[0]={t1,t2,w}; }
+}
+
+function pickWinner(round, mIdx, teamRef) {
+    const team = bracketState[round][mIdx][teamRef];
+    if (!team) return;
+    bracketState[round][mIdx].w = team;
+    updateBracketLogic();
+    renderBracket();
+}
+
+// ── Render del cuadro ─────────────────────────────────────────────────────
+// Layout visual: 9 columnas
+// col 0=P1_R32, col1=P1_R16, col2=P1_QF, col3=P1_SF, col4=FIN/BRON, col5=P2_SF, col6=P2_QF, col7=P2_R16, col8=P2_R32
+const BH=56, BG=10, BU=BH+BG, BW=130, HGAP=18;
+const COLS=9, TOTAL_W_B=(BW+HGAP)*COLS-HGAP+4;
+const ROWS_P = 8; // 8 partidos por pathway en R32
+const TOTAL_H_B = ROWS_P*BU - BG + 20;
+
+function colX(c) { return c*(BW+HGAP); }
+// Posición vertical para el partido i dentro de su pathway y ronda
+// ronda 0=R32(8 matches), 1=R16(4), 2=QF(2), 3=SF(1)
+function rowY(roundIdx, matchInRound) {
+    const step = Math.pow(2, roundIdx);   // cuántos slots de R32 ocupa un partido
+    return (matchInRound * step * BU) + ((step - 1) * BU / 2);
+}
+// La final y el bronce van en el centro
+const FIN_Y = (ROWS_P * BU - BG) / 2 - BH - BG/2;
+const BRON_Y = FIN_Y + BH + BG + 22;
+
+function renderBracket() {
+    const container = document.getElementById('cards-container');
+    container.innerHTML = '';
+    container.style.position = 'relative';
+    container.style.width = TOTAL_W_B + 'px';
+    container.style.height = TOTAL_H_B + 'px';
+
+    // SVG para las líneas conectoras
+    const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('width', TOTAL_W_B);
+    svg.setAttribute('height', TOTAL_H_B);
+    svg.style.cssText = 'position:absolute;top:0;left:0;pointer-events:none;';
+    container.appendChild(svg);
+
+    // Helper: crea una tarjeta de partido
+    function makeCard(round, idx, x, y) {
+        const m = bracketState[round][idx];
+        const isT1W = m.w && m.t1 && m.w.name === m.t1.name;
+        const isT2W = m.w && m.t2 && m.w.name === m.t2.name;
+        const clickable = m.t1 && m.t2;
+        const div = document.createElement('div');
+        div.className = 'bracket-card';
+        div.style.cssText = `position:absolute;left:${x}px;top:${y}px;width:${BW}px;height:${BH}px;`;
+        div.innerHTML = `
+            <div class="bracket-row ${!m.t1?'empty':''} ${isT1W?'winner':''}" style="height:${(BH-1)/2}px" ${clickable?`onclick="pickWinner('${round}',${idx},'t1')"`:''}>
+                <span class="team-name-br">${m.t1?m.t1.name:'—'}</span>${isT1W?'<span style="font-size:10px">👑</span>':''}
+            </div>
+            <div class="bracket-divider"></div>
+            <div class="bracket-row ${!m.t2?'empty':''} ${isT2W?'winner':''}" style="height:${(BH-1)/2}px" ${clickable?`onclick="pickWinner('${round}',${idx},'t2')"`:''}>
+                <span class="team-name-br">${m.t2?m.t2.name:'—'}</span>${isT2W?'<span style="font-size:10px">👑</span>':''}
+            </div>`;
+        container.appendChild(div);
+        return { cx: x+BW, cy: y+BH/2, lx: x }; // puntos de conexión derecha/izquierda/centro-izquierda
+    }
+
+    // Helper: añade una línea SVG
+    function line(x1,y1,x2,y2,color) {
+        const p = document.createElementNS('http://www.w3.org/2000/svg','path');
+        const mx = (x1+x2)/2;
+        p.setAttribute('d',`M${x1},${y1} H${mx} V${y2} H${x2}`);
+        p.setAttribute('stroke', color||'rgba(0,217,255,0.4)');
+        p.setAttribute('stroke-width','1.5');
+        p.setAttribute('fill','none');
+        svg.appendChild(p);
+    }
+
+    // ── Pathway 1 (izquierda, avanza →) ──────────────────────────────────
+    const p1Rounds = ['r32','r16','qf','sf'];
+    const p1Slots  = [[0,1,2,3,4,5,6,7],[0,1,2,3],[0,1],[0]];
+    const p1Cols   = [0,1,2,3];
+    const p1Points = {}; // round → match → {rx,ry} (punto de salida derecha)
+
+    p1Rounds.forEach((round, ri) => {
+        p1Points[round] = {};
+        p1Slots[ri].forEach((mIdx, vi) => {
+            const x = colX(p1Cols[ri]);
+            const y = rowY(ri, vi);
+            const pts = makeCard(round, mIdx, x, y);
+            p1Points[round][mIdx] = { outX: pts.cx, outY: pts.cy, inX: pts.lx, inY: pts.cy };
+        });
+    });
+
+    // Líneas P1: R32→R16
+    [[0,1,0],[2,3,1],[4,5,2],[6,7,3]].forEach(([a,b,dst]) => {
+        const pA=p1Points.r32[a], pB=p1Points.r32[b], pD=p1Points.r16[dst];
+        if(pA&&pB&&pD){ line(pA.outX,pA.outY,pD.inX,pD.inY); line(pB.outX,pB.outY,pD.inX,pD.inY); }
+    });
+    [[0,1,0],[2,3,1]].forEach(([a,b,dst]) => {
+        const pA=p1Points.r16[a],pB=p1Points.r16[b],pD=p1Points.qf[dst];
+        if(pA&&pB&&pD){ line(pA.outX,pA.outY,pD.inX,pD.inY); line(pB.outX,pB.outY,pD.inX,pD.inY); }
+    });
+    [[0,1,0]].forEach(([a,b,dst]) => {
+        const pA=p1Points.qf[a],pB=p1Points.qf[b],pD=p1Points.sf[dst];
+        if(pA&&pB&&pD){ line(pA.outX,pA.outY,pD.inX,pD.inY); line(pB.outX,pB.outY,pD.inX,pD.inY); }
+    });
+
+    // ── Pathway 2 (derecha, avanza ←) ──────────────────────────────────
+    const p2Rounds = ['r32','r16','qf','sf'];
+    const p2Slots  = [[8,9,10,11,12,13,14,15],[4,5,6,7],[2,3],[1]];
+    const p2Cols   = [8,7,6,5];
+    const p2Points = {};
+
+    p2Rounds.forEach((round, ri) => {
+        p2Points[round] = {};
+        p2Slots[ri].forEach((mIdx, vi) => {
+            const x = colX(p2Cols[ri]);
+            const y = rowY(ri, vi);
+            const pts = makeCard(round, mIdx, x, y);
+            p2Points[round][mIdx] = { outX: pts.lx, outY: pts.cy, inX: pts.cx, inY: pts.cy };
+        });
+    });
+
+    // Líneas P2: R32→R16 (conectan por la izquierda de las tarjetas)
+    [[8,9,4],[10,11,5],[12,13,6],[14,15,7]].forEach(([a,b,dst]) => {
+        const pA=p2Points.r32[a],pB=p2Points.r32[b],pD=p2Points.r16[dst];
+        if(pA&&pB&&pD){ line(pA.outX,pA.outY,pD.inX,pD.inY); line(pB.outX,pB.outY,pD.inX,pD.inY); }
+    });
+    [[4,5,2],[6,7,3]].forEach(([a,b,dst]) => {
+        const pA=p2Points.r16[a],pB=p2Points.r16[b],pD=p2Points.qf[dst];
+        if(pA&&pB&&pD){ line(pA.outX,pA.outY,pD.inX,pD.inY); line(pB.outX,pB.outY,pD.inX,pD.inY); }
+    });
+    [[2,3,1]].forEach(([a,b,dst]) => {
+        const pA=p2Points.qf[a],pB=p2Points.qf[b],pD=p2Points.sf[dst];
+        if(pA&&pB&&pD){ line(pA.outX,pA.outY,pD.inX,pD.inY); line(pB.outX,pB.outY,pD.inX,pD.inY); }
+    });
+
+    // ── Final (col 4) ────────────────────────────────────────────────────
+    const finX = colX(4);
+    makeCard('fin', 0, finX, FIN_Y);
+    makeCard('bron', 0, finX, BRON_Y);
+
+    // Etiquetas Final / 3er puesto
+    function addLabel(text, x, y, color) {
+        const el = document.createElement('div');
+        el.style.cssText=`position:absolute;left:${x}px;top:${y-16}px;width:${BW}px;text-align:center;font-size:10px;font-weight:700;color:${color};letter-spacing:1px;`;
+        el.textContent = text;
+        container.appendChild(el);
+    }
+    addLabel('FINAL', finX, FIN_Y, '#ffd700');
+    addLabel('3er PUESTO', finX, BRON_Y, '#f97316');
+
+    // Líneas SF → Final
+    const sf0p = p1Points.sf[0], sf1p = p2Points.sf[1];
+    const finCY = FIN_Y + BH/2, bronCY = BRON_Y + BH/2;
+    if (sf0p) {
+        const p=document.createElementNS('http://www.w3.org/2000/svg','path');
+        p.setAttribute('d',`M${sf0p.outX},${sf0p.outY} H${finX}`);
+        p.setAttribute('stroke','rgba(255,215,0,0.5)'); p.setAttribute('stroke-width','1.5'); p.setAttribute('fill','none');
+        svg.appendChild(p);
+    }
+    if (sf1p) {
+        const p=document.createElementNS('http://www.w3.org/2000/svg','path');
+        p.setAttribute('d',`M${sf1p.outX},${sf1p.outY} H${finX+BW}`);
+        p.setAttribute('stroke','rgba(255,215,0,0.5)'); p.setAttribute('stroke-width','1.5'); p.setAttribute('fill','none');
+        svg.appendChild(p);
+    }
+
+    // Actualizar tamaño del canvas
+    document.getElementById('bracket-canvas').style.width = TOTAL_W_B + 'px';
+    document.getElementById('bracket-canvas').style.height = TOTAL_H_B + 'px';
+}
+
+/* =========================================
+   INIT
+   ========================================= */
+window.onclick = e => { if (e.target.id==='groupModal') closeModal(); };
+window.addEventListener('DOMContentLoaded', () => {
+    loadMatches();
+    loadGroups();
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+    // Inicializar simulador
+    const simGrid = document.getElementById('sim-groups-container');
+    GIDS.forEach(gid => {
+        const card = document.createElement('div');
+        card.className = 'sim-group-card';
+        card.id = `sim-card-${gid}`;
+        simGrid.appendChild(card);
+        renderSimGroup(gid);
+    });
+    renderThirdsPanel();
+    updateBracketLogic();
+});
+</script>
+</body>
+</html>
